@@ -1,3 +1,5 @@
+import 'package:crypto_price_tracker/model/favorite.dart';
+
 class CryptoCurrency {
   String? id;
   String? symbol;
@@ -13,7 +15,7 @@ class CryptoCurrency {
   double? circulatingSupply;
   double? ath;
   double? atl;
-  bool isFavorite = false;
+  Favorite isFavorite = Favorite.disabled;
 
   CryptoCurrency(
       {required this.id,
