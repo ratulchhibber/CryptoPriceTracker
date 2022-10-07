@@ -1,8 +1,11 @@
-import 'package:crypto_price_tracker/constant/local_storage.dart';
 import 'package:flutter/material.dart';
+
+import '../constant/storage/theme_storage.dart';
 
 class ThemeProvider with ChangeNotifier {
   late ThemeMode themeMode;
+
+  final ThemeStorage storage = ThemeStorage();
 
   ThemeProvider(this.themeMode) {
     _saveAndNotifyListeners();
@@ -18,7 +21,7 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void _saveAndNotifyListeners() {
-    LocalStorage.saveTheme(themeMode);
+    storage.save(themeMode);
     notifyListeners();
   }
 }
