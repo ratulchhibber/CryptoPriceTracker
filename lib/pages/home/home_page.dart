@@ -1,12 +1,7 @@
-import 'package:crypto_price_tracker/model/crypto_currency.dart';
 import 'package:crypto_price_tracker/pages/home/market_list.dart';
-import 'package:crypto_price_tracker/provider/market_provider.dart';
 import 'package:crypto_price_tracker/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../detail_page.dart';
-import 'favorite_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -76,9 +71,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     parent: AlwaysScrollableScrollPhysics(),
                   ),
                   controller: _tabController,
-                  children: const [
-                    MarketList(),
-                    FavoriteList(),
+                  children: [
+                    MarketList(
+                      type: ListType.all,
+                    ),
+                    MarketList(
+                      type: ListType.favorites,
+                    ),
                   ],
                 ),
               ),
