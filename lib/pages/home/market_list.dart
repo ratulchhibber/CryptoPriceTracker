@@ -1,3 +1,5 @@
+import 'package:crypto_price_tracker/model/favorite.dart';
+import 'package:crypto_price_tracker/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -5,8 +7,12 @@ import '../../model/crypto_currency.dart';
 import '../../provider/market_provider.dart';
 import '../detail_page.dart';
 
+enum ListType { all, favorites }
+
 class MarketList extends StatefulWidget {
-  const MarketList({Key? key}) : super(key: key);
+  late ListType type;
+
+  MarketList({Key? key, required this.type}) : super(key: key);
 
   @override
   State<MarketList> createState() => _MarketListState();
@@ -14,9 +20,17 @@ class MarketList extends StatefulWidget {
 
 class _MarketListState extends State<MarketList> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<MarketProvider>(context, listen: false)
+          .fetchData(widget.type);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Consumer<MarketProvider>(
+    return Consumer<MarketProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
           return const Center(
@@ -25,7 +39,7 @@ class _MarketListState extends State<MarketList> {
         } else if (provider.markets.isNotEmpty) {
           return RefreshIndicator(
             onRefresh: () async {
-                await provider.fetchData();
+              await provider.fetchData(widget.type);
             },
             child: ListView.builder(
                 physics: const BouncingScrollPhysics(
@@ -47,6 +61,7 @@ class _MarketListState extends State<MarketList> {
                                   0.85,
                               child: CryptoDetailPage(
                                 id: crypto.id ?? "",
+                                type: widget.type,
                               ),
                             );
                           });
@@ -140,7 +155,6 @@ class _MarketListState extends State<MarketList> {
           return const Text("data not found");
         }
       },
-      ),
     );
   }
 }
