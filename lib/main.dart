@@ -1,17 +1,18 @@
 import 'package:crypto_price_tracker/pages/home/home_page.dart';
+import 'package:crypto_price_tracker/provider/favorite_provider.dart';
 import 'package:crypto_price_tracker/provider/market_provider.dart';
 import 'package:crypto_price_tracker/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:crypto_price_tracker/theme/theme.dart';
 
-import 'constant/local_storage.dart';
+import 'constant/storage/theme_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     FutureBuilder<ThemeMode>(
-      future: LocalStorage.fetchTheme(),
+      future: ThemeStorage().fetch(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -32,8 +33,6 @@ void main() async {
       },
     ),
   );
-
-  // runApp(MyApp(themeMode: LocalStorage.fetchTheme()));
 }
 
 class MyApp extends StatelessWidget {
@@ -50,6 +49,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (context) => ThemeProvider(themeMode),
+        ),
+        ChangeNotifierProvider<FavoriteProvider>(
+          create: (context) => FavoriteProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(
