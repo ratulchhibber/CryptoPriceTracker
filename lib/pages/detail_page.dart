@@ -1,11 +1,14 @@
 import 'package:crypto_price_tracker/model/crypto_currency.dart';
+import 'package:crypto_price_tracker/pages/home/market_list.dart';
 import 'package:crypto_price_tracker/provider/market_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CryptoDetailPage extends StatefulWidget {
+  late ListType type;
   final String id;
-  const CryptoDetailPage({Key? key, required this.id}) : super(key: key);
+  CryptoDetailPage({Key? key, required this.id, required this.type})
+      : super(key: key);
 
   @override
   State<CryptoDetailPage> createState() => _CryptoDetailPageState();
@@ -29,7 +32,7 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
             CryptoCurrency crypto = provider.fetchCrypto(widget.id);
             return RefreshIndicator(
               onRefresh: () async {
-                await provider.fetchData();
+                await provider.fetchData(widget.type);
               },
               child: ListView(
                 padding: const EdgeInsets.all(20),
