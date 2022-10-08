@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../model/crypto_currency.dart';
 import '../../provider/market_provider.dart';
-import '../detail_page.dart';
+import '../detail/detail_page.dart';
 
 enum ListType { all, favorites }
 
