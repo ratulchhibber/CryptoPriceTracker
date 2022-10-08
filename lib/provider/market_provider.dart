@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../api/api.dart';
 import '../model/crypto_currency.dart';
+import '../model/market_chart.dart';
 import '../pages/home/market_list.dart';
 
 class MarketProvider with ChangeNotifier {
   bool isLoading = true;
   List<CryptoCurrency> markets = [];
+  List<PriceData> priceDataList = [];
 
   Future<void> fetchData(ListType type) async {
     List<dynamic> markets = await API.getMarkets();
@@ -33,5 +35,19 @@ class MarketProvider with ChangeNotifier {
 
   CryptoCurrency fetchCrypto(String id) {
     return markets.where((element) => element.id == id).first;
+  }
+
+  Future<List<PriceData>> fetchMarketChart(String id) async {
+    Map<String, dynamic> prices = await API.getMarketChart(id);
+    MarketPrice marketPrice = MarketPrice.fromJson(prices);
+    priceDataList.clear();
+    for (var price in marketPrice.prices) {
+      PriceData model = PriceData(
+        DateTime.fromMillisecondsSinceEpoch(price[0].toInt()),
+        price[1],
+      );
+      priceDataList.add(model);
+    }
+    return priceDataList;
   }
 }
