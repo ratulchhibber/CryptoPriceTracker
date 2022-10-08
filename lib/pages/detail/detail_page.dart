@@ -1,4 +1,5 @@
 import 'package:crypto_price_tracker/model/crypto_currency.dart';
+import 'package:crypto_price_tracker/pages/detail/line_chart.dart';
 import 'package:crypto_price_tracker/pages/home/market_list.dart';
 import 'package:crypto_price_tracker/provider/market_provider.dart';
 import 'package:flutter/material.dart';
@@ -110,48 +111,13 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      titleAndDetail(
-                          "Low 24h",
-                          "₹ ${crypto.low24!.toStringAsFixed(4)}",
-                          CrossAxisAlignment.start),
-                      titleAndDetail(
-                          "High 24h",
-                          "₹ ${crypto.high24!.toStringAsFixed(4)}",
-                          CrossAxisAlignment.end),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      titleAndDetail(
-                          "Circulating Supply",
-                          crypto.circulatingSupply!.toInt().toString(),
-                          CrossAxisAlignment.start),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      titleAndDetail(
-                          "All Time Low",
-                          crypto.atl!.toStringAsFixed(4),
-                          CrossAxisAlignment.start),
-                      titleAndDetail(
-                          "All Time High",
-                          crypto.ath!.toStringAsFixed(4),
-                          CrossAxisAlignment.start),
-                    ],
+                  SizedBox(
+                    height: 400,
+                    child: LineChart(
+                      cryptoId: crypto.id ?? "",
+                    ),
                   ),
                 ],
               ),
