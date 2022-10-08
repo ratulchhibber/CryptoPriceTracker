@@ -14,4 +14,17 @@ class API {
       return [];
     }
   }
+
+  static Future<Map<String, dynamic>> getMarketChart(String id) async {
+    try {
+      Uri requestUri = Uri.parse(
+          "https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=inr&days=14&interval=daily");
+      var response = await http.get(requestUri);
+      var decodedResponse = jsonDecode(response.body);
+      Map<String, dynamic> markets = decodedResponse as Map<String, dynamic>;
+      return markets;
+    } catch (error) {
+      return {};
+    }
+  }
 }
